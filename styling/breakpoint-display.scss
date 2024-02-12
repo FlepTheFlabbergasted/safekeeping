@@ -1,0 +1,57 @@
+/*
+ *  This file defines the following classes that shows or hides elements at a breakpoint:
+ *
+ *  .show-at-[KEY]
+ *  .show-at-[KEY]--[DISPLAY TYPE]
+ *  .hide-at-[KEY]
+ *  .hide-at-[KEY]--[DISPLAY TYPE]
+ *
+ *  [KEY] can be one of the following (imported from 'mixin-breakpoint'):
+ *  sm md lg xl xxl
+ *
+ *  [DISPLAY TYPE] is defined below ($display-types)
+ */
+
+@import 'mixin-breakpoint'; // Make sure this import has the correct path
+
+$display-types: flex table-cell;
+
+@each $key in $screen-keys {
+  $index: index($screen-keys, $key);
+
+  .show-at-#{$key} {
+    display: none !important;
+
+    @include breakpoint(#{$key}) {
+      display: block !important;
+    }
+
+    @each $type in $display-types {
+      &--#{$type} {
+        display: none !important;
+
+        @include breakpoint(#{$key}) {
+          display: #{$type} !important;
+        }
+      }
+    }
+  }
+
+  .hide-at-#{$key} {
+    display: block !important;
+
+    @include breakpoint(#{$key}) {
+      display: none !important;
+    }
+
+    @each $type in $display-types {
+      &--#{$type} {
+        display: #{$type} !important;
+
+        @include breakpoint(#{$key}) {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
