@@ -1,12 +1,19 @@
-import { SortDirection } from '@hyph-admin/api';
-import { objectSortByNumber } from './object-sort-by-number';
+import { objectSortByString } from './object-sort-by-string';
 
-describe('objectSortByNumber', () => {
-  const testObjects = [{ id: 2 }, { id: 1 }, { id: 3 }];
+describe('objectSortByString', () => {
+  const testArr = [{ name: 'A2' }, { name: 'B' }, { name: 'A1' }];
 
-  it('should return array sorted by the specified object key in the specified sort direction and default to ascending', () => {
-    expect(objectSortByNumber(testObjects, 'id', SortDirection.Asc)).toStrictEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
-    expect(objectSortByNumber(testObjects, 'id', SortDirection.Desc)).toStrictEqual([{ id: 3 }, { id: 2 }, { id: 1 }]);
-    expect(objectSortByNumber(testObjects, 'id')).toStrictEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
+  it('should return array sorted by the element key in the specified sort direction and default to ascending', () => {
+    expect(objectSortByString(testArr, 'name')).toStrictEqual([{ name: 'A1' }, { name: 'A2' }, { name: 'B' }]);
+    expect(objectSortByString(testArr, 'name', 'asc')).toStrictEqual([
+      { name: 'A1' },
+      { name: 'A2' },
+      { name: 'B' },
+    ]);
+    expect(objectSortByString(testArr, 'name', 'desc')).toStrictEqual([
+      { name: 'B' },
+      { name: 'A2' },
+      { name: 'A1' },
+    ]);
   });
 });
